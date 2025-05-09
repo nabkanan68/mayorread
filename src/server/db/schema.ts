@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { index, integer, pgTableCreator, primaryKey, varchar, timestamp } from "drizzle-orm/pg-core";
+import { index, pgTableCreator } from "drizzle-orm/pg-core";
 
 /**
  * Election results application schema
@@ -79,6 +79,20 @@ export const votes = createTable(
     index("vote_candidate_idx").on(t.candidate_id),
     index("vote_station_idx").on(t.station_id),
   ],
+);
+
+// Posts table for demo purposes
+export const posts = createTable(
+  "posts",
+  (d) => ({
+    id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
+    name: d.varchar({ length: 256 }).notNull(),
+    createdAt: d
+      .timestamp({ withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+  }),
+  (t) => [index("post_name_idx").on(t.name)],
 );
 
 // Define relations between tables

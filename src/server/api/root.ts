@@ -1,6 +1,7 @@
 import { regionsRouter } from "./routers/regions";
 import { candidatesRouter } from "./routers/candidates";
 import { votesRouter } from "./routers/votes";
+import { postRouter } from "./routers/post";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -12,6 +13,7 @@ export const appRouter = createTRPCRouter({
   regions: regionsRouter,
   candidates: candidatesRouter,
   votes: votesRouter,
+  post: postRouter,
 });
 
 // export type definition of API

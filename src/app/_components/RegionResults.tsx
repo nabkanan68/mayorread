@@ -34,7 +34,12 @@ export default function RegionResults({ regionId }: RegionResultsProps) {
   }
 
   // Calculate total votes for percentage calculation
-  const totalVotes = results.reduce((sum, candidate) => sum + Number(candidate.total_votes), 0);
+  const totalVotes = results.reduce((sum, candidate) => {
+    const voteCount = typeof candidate.total_votes === 'number' 
+      ? candidate.total_votes 
+      : Number(candidate.total_votes ?? 0);
+    return sum + voteCount;
+  }, 0);
   
   // Highlight the top 6 candidates (representatives)
   const representativeCount = region?.total_representatives ?? 6;
@@ -74,10 +79,14 @@ export default function RegionResults({ regionId }: RegionResultsProps) {
                 <td className="py-3 px-4">{index + 1}</td>
                 <td className="py-3 px-4">{candidate.candidateNumber}</td>
                 <td className="py-3 px-4 font-medium">{candidate.candidateName}</td>
-                <td className="py-3 px-4 text-right">{candidate.total_votes.toLocaleString()}</td>
+                <td className="py-3 px-4 text-right">
+                  {typeof candidate.total_votes === 'number' 
+                    ? candidate.total_votes.toLocaleString() 
+                    : Number(candidate.total_votes ?? 0).toLocaleString()}
+                </td>
                 <td className="py-3 px-4 text-right">
                   {totalVotes > 0
-                    ? `${((Number(candidate.total_votes) / totalVotes) * 100).toFixed(2)}%`
+                    ? `${((Number(candidate.total_votes ?? 0) / totalVotes) * 100).toFixed(2)}%`
                     : "0.00%"}
                 </td>
                 <td className="py-3 px-4 text-center">

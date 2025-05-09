@@ -31,7 +31,8 @@ export default function VoteEntry({ regionId }: VoteEntryProps) {
   // Create a mutation for updating votes
   const updateVoteMutation = api.votes.upsertVote.useMutation({
     onSuccess: () => {
-      refetchVotes();
+      // Using void to explicitly mark this promise as intentionally not awaited
+      void refetchVotes();
       setMessage({ type: "success", text: "Vote data saved successfully" });
       setTimeout(() => setMessage(null), 3000);
     },
@@ -64,11 +65,10 @@ export default function VoteEntry({ regionId }: VoteEntryProps) {
     });
     
     if (promises) {
-      try {
-        await Promise.all(promises);
-      } catch (e) {
+      // Properly await the Promise.all to satisfy ESLint
+      await Promise.all(promises).catch(e => {
         console.error("Error saving votes:", e);
-      }
+      });
     }
   };
 

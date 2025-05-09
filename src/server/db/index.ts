@@ -22,13 +22,12 @@ if (process.env.NODE_ENV === "production") {
   });
 } else {
   // In development, reuse the connection across hot reloads
-  if (!global.cachedConnection) {
-    global.cachedConnection = postgres(env.DATABASE_URL, {
-      max: 1,
-      ssl: true,
-      prepare: false,
-    });
-  }
+  // Using nullish coalescing assignment operator (??=) for cleaner code
+  global.cachedConnection ??= postgres(env.DATABASE_URL, {
+    max: 1,
+    ssl: true,
+    prepare: false,
+  });
   sql = global.cachedConnection;
 }
 
