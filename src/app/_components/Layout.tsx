@@ -13,7 +13,7 @@ export default function Layout({ children }: LayoutProps) {
       <header className="bg-blue-700 text-white shadow-md">
         <div className="container mx-auto p-4 flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold">
-            Election Results
+            Mayoral Election Results
           </Link>
           <nav className="flex gap-6">
             <Link 
@@ -36,7 +36,7 @@ export default function Layout({ children }: LayoutProps) {
       </main>
       <footer className="bg-gray-100 border-t">
         <div className="container mx-auto p-4 text-center text-gray-600">
-          © {new Date().getFullYear()} Election Results System
+          © {new Date().getFullYear()} Mayoral Election Results System
         </div>
       </footer>
     </div>

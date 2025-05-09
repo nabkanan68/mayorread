@@ -2,10 +2,10 @@ import { relations, sql } from "drizzle-orm";
 import { index, pgTableCreator } from "drizzle-orm/pg-core";
 
 /**
- * Election results application schema
- * Schema includes regions, stations, candidates, and their respective votes
+ * Mayoral Election results application schema
+ * Schema includes regions, stations, candidates (3 mayoral candidates), and their respective votes
  */
-export const createTable = pgTableCreator((name) => `electionx_${name}`);
+export const createTable = pgTableCreator((name) => `mayorx_${name}`);
 
 // Regions table
 export const regions = createTable(
@@ -14,7 +14,6 @@ export const regions = createTable(
     id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
     name: d.varchar({ length: 100 }).notNull(),
     total_stations: d.integer().notNull(),
-    total_representatives: d.integer().default(6).notNull(),
     created_at: d
       .timestamp({ withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
@@ -41,14 +40,13 @@ export const stations = createTable(
   ],
 );
 
-// Candidates table
+// Candidates table - only 3 mayoral candidates across all regions
 export const candidates = createTable(
   "candidates",
   (d) => ({
     id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
     name: d.varchar({ length: 200 }).notNull(),
-    region_id: d.integer().notNull().references(() => regions.id),
-    number: d.integer().notNull(), // Candidate number on the ballot
+    number: d.integer().notNull(), // Candidate number on the ballot (1, 2, or 3)
     created_at: d
       .timestamp({ withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
@@ -56,7 +54,6 @@ export const candidates = createTable(
   }),
   (t) => [
     index("candidate_name_idx").on(t.name),
-    index("candidate_region_idx").on(t.region_id),
     index("candidate_number_idx").on(t.number),
   ],
 );
@@ -98,7 +95,6 @@ export const posts = createTable(
 // Define relations between tables
 export const regionsRelations = relations(regions, ({ many }) => ({
   stations: many(stations),
-  candidates: many(candidates),
 }));
 
 export const stationsRelations = relations(stations, ({ one, many }) => ({
@@ -109,11 +105,7 @@ export const stationsRelations = relations(stations, ({ one, many }) => ({
   votes: many(votes),
 }));
 
-export const candidatesRelations = relations(candidates, ({ one, many }) => ({
-  region: one(regions, {
-    fields: [candidates.region_id],
-    references: [regions.id],
-  }),
+export const candidatesRelations = relations(candidates, ({ many }) => ({
   votes: many(votes),
 }));
 

@@ -1,3 +1,6 @@
+// Load environment variables first
+import "./load-env";
+
 import { seed } from "./seed";
 
 // Run the seed function

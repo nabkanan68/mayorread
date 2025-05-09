@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { db } from "~/server/db";
-import { votes, candidates, stations } from "~/server/db/schema";
+import { stations, votes, candidates } from "~/server/db/schema";
 import { eq, and } from "drizzle-orm";
 
 export const votesRouter = createTRPCRouter({
@@ -81,9 +81,8 @@ export const votesRouter = createTRPCRouter({
         where: eq(stations.region_id, input.regionId),
       });
 
-      // Get all candidates for the region
+      // Get all mayoral candidates (they're global, not region-specific)
       const regionCandidates = await db.query.candidates.findMany({
-        where: eq(candidates.region_id, input.regionId),
         orderBy: (candidates, { asc }) => [asc(candidates.number)],
       });
 

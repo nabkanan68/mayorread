@@ -17,10 +17,8 @@ export default function VoteEntry({ regionId }: VoteEntryProps) {
     enabled: regionId > 0
   });
 
-  // Fetch candidates for the selected region
-  const { data: candidates } = api.candidates.getByRegion.useQuery({ regionId }, {
-    enabled: regionId > 0
-  });
+  // Fetch all mayoral candidates (same 3 candidates for all regions)
+  const { data: candidates } = api.candidates.getCandidates.useQuery();
 
   // Fetch existing votes for the selected station
   const { data: existingVotes, refetch: refetchVotes } = api.votes.getByStation.useQuery(

@@ -41,9 +41,8 @@ export default function RegionResults({ regionId }: RegionResultsProps) {
     return sum + voteCount;
   }, 0);
   
-  // Highlight the top 6 candidates (representatives)
-  const representativeCount = region?.total_representatives ?? 6;
-  const isRepresentative = (index: number) => index < representativeCount;
+  // Find highest voted candidate in this region
+  const highestVotedIndex = 0; // Since results are already ordered by votes DESC
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -52,7 +51,7 @@ export default function RegionResults({ regionId }: RegionResultsProps) {
           {region?.name} Results
         </h3>
         <p className="text-sm opacity-80">
-          Top {representativeCount} candidates will be elected as representatives
+          Votes for mayoral candidates in this region
         </p>
       </div>
       
@@ -65,7 +64,7 @@ export default function RegionResults({ regionId }: RegionResultsProps) {
               <th className="py-3 px-4 text-left">Candidate</th>
               <th className="py-3 px-4 text-right">Votes</th>
               <th className="py-3 px-4 text-right">Percentage</th>
-              <th className="py-3 px-4 text-center">Status</th>
+              <th className="py-3 px-4 text-center">Position</th>
             </tr>
           </thead>
           <tbody>
@@ -73,7 +72,7 @@ export default function RegionResults({ regionId }: RegionResultsProps) {
               <tr 
                 key={candidate.candidateId}
                 className={`border-b last:border-0 ${
-                  isRepresentative(index) ? "bg-green-50" : ""
+                  index === highestVotedIndex ? "bg-green-50" : ""
                 }`}
               >
                 <td className="py-3 px-4">{index + 1}</td>
@@ -90,9 +89,9 @@ export default function RegionResults({ regionId }: RegionResultsProps) {
                     : "0.00%"}
                 </td>
                 <td className="py-3 px-4 text-center">
-                  {isRepresentative(index) ? (
+                  {index === highestVotedIndex && totalVotes > 0 ? (
                     <span className="inline-block px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded">
-                      Elected
+                      Leading
                     </span>
                   ) : null}
                 </td>

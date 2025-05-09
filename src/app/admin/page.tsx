@@ -8,9 +8,9 @@ export default async function AdminPage() {
   return (
     <Layout>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Admin Panel</h1>
+        <h1 className="text-3xl font-bold mb-2">Mayoral Election Admin Panel</h1>
         <p className="text-gray-600">
-          Enter vote counts for each candidate by region and polling station.
+          Enter vote counts for each mayoral candidate by region and polling station.
         </p>
       </div>
 
