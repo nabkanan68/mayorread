@@ -13,7 +13,7 @@ export default function Layout({ children }: LayoutProps) {
       <header className="bg-blue-700 text-white shadow-md">
         <div className="container mx-auto p-4 flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold">
-            Mayoral Election Results(non-official) Mayoral Election Results(non-official) Mayoral Election Results(non-official) ผลการเลือกตั้งไม่เป็นทางการ
+            Mayoral Election Results(non-official) ผลการเลือกตั้งไม่เป็นทางการ
           </Link>
           <nav className="flex gap-6">
             <Link 
