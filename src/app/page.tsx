@@ -15,7 +15,7 @@ export default async function Home() {
   return (
     <Layout>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Mayoral Election Results</h1>
+        <h1 className="text-3xl font-bold mb-2">Mayoral Election Results(non-official) ผลการเลือกตั้งไม่เป็นทางการ</h1>
         <p className="text-gray-600">
           View the latest results for the mayoral election across all regions.
         </p>
